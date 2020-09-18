@@ -16,3 +16,4 @@ site_data <- read.csv("2020_Sept_site_x_environment.csv")
 # Species Richness -----
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
+
