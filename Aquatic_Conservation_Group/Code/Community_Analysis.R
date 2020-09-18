@@ -9,11 +9,14 @@ library(tidyverse)
 library(vegan)
 library(lme4)
 library(lmerTest)
-install.packages("googlesheets4")
 library(googlesheets4)
+library(ggfortify)
 
-species_data <- read.csv("2020_Sept_species_x_site.csv")
-site_data <- read.csv("2020_Sept_site_x_environment.csv")
+
+# Remove this from final analysis, this is data for practice
+species_data<-read.csv("species_x_site.csv")
+site_data<-read.csv("site_x_environment.csv")
+site_data$Location<-as.factor(site_data$Location)
 
 # Read sheets from google drive
 site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
@@ -27,4 +30,61 @@ species_data <- as.data.frame(species)
 # Species Richness -----
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
+
+# PERMANOVA -----
+
+# adonis
+dissim.mat <- vegdist(species_data, method="horn")
+adonis(dissim.mat ~ Side*Total_distance_m, data=site.data, strata = site.data$Location, permutations=9999)
+
+# PCA -----
+
+# this creates the PCA values
+pca_values <- 
+  prcomp(species_data,
+         center = TRUE, 
+         scale = TRUE)
+
+summary(pca_values)
+str(pca_values)
+
+# quick and dirty plot
+autoplot(pca_values, 
+         loadings = TRUE,
+         loadings.label = TRUE) 
+
+# let's add these PCA values to our original dataframe
+pca_points <- 
+  data.frame(species_data, pca_values$x)
+
+# now let's pull out the eigenvectors (the arrows showing the loadings)
+pca_load <- 
+  data.frame(variables = rownames(pca_values$rotation), pca_values$rotation)
+
+pca_load
+
+# we can create a convex hull - the smallest polygon that includes all the points
+# of a given level
+pca_hull <- 
+  pca_points %>% 
+  group_by(species) %>% 
+  slice(chull(PC1, PC2))
+
+# Ordination: nMDS -----
+myNMDS<-metaMDS(species_data,k=2)
+myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
+stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
+
+plot(myNMDS)#sites are open circles and species are red +'s ...but it might be nice to label these, and connect samples in the same treatment
+
+
+ordiplot(myNMDS,type="n") 
+ordihull(myNMDS,groups=site_data$Side,draw="polygon",col="grey99",label=T)
+orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
+orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
+
+ordiplot(myNMDS,type="n") 
+ordihull(myNMDS,groups=site_data$Location,draw="polygon",col="grey99",label=T)
+orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
+orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
 
