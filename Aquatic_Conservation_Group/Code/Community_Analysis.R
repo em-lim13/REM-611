@@ -57,6 +57,8 @@ autoplot(pca_values,
 pca_points <- 
   data.frame(species_data, pca_values$x)
 
+pca_points_site <- cbind(pca_points, site_data)
+
 # now let's pull out the eigenvectors (the arrows showing the loadings)
 pca_load <- 
   data.frame(variables = rownames(pca_values$rotation), pca_values$rotation)
@@ -66,9 +68,39 @@ pca_load
 # we can create a convex hull - the smallest polygon that includes all the points
 # of a given level
 pca_hull <- 
-  pca_points %>% 
-  group_by(species) %>% 
+  pca_points_site %>% 
+  group_by(Side) %>% 
   slice(chull(PC1, PC2))
+
+
+# now let's make the plot
+pca_plot <- 
+  ggplot(pca_points_site, aes(x = PC1, y = PC2)) +
+  # this plots the actual PCA points
+  geom_point(aes(colour = Side),
+             size = 2, alpha = 0.7) +
+  # plot the convex hull 
+  geom_polygon(data = pca_hull,
+               aes(fill = Side),
+               alpha = 0.3,
+               show.legend = FALSE) +
+  # now let's plot the loadings (arrows denoting eigenvectors)
+  geom_segment(data = pca_load, 
+               aes(x = 0, y = 0, 
+                   # multiplying by 5 helps fill-out a lot of the empty space
+                   # and by multiplying by a constant, you don't lose the
+                   # relative magnitude of the loadings to one another
+                   xend = PC1*5,
+                   yend = PC2*5),
+               arrow = arrow(length = unit(1/2, 'picas'))) +
+  # you can use the ggrepel package for this as well
+  # personally I prefer this method because it's easier to manipulate the label position
+  annotate('text', x = (pca_load$PC1*5.7), y = (pca_load$PC2*5.2),
+           label = pca_load$variables,
+           size = 2.5) +
+  theme_classic() 
+
+pca_plot
 
 # Ordination: nMDS -----
 myNMDS<-metaMDS(species_data,k=2)
@@ -77,6 +109,8 @@ stressplot(myNMDS) #low stress means that the observed dissimilarity between sit
 
 plot(myNMDS)#sites are open circles and species are red +'s ...but it might be nice to label these, and connect samples in the same treatment
 
+# link for graphing help
+# https://rpubs.com/CPEL/NMDS
 
 ordiplot(myNMDS,type="n") 
 ordihull(myNMDS,groups=site_data$Side,draw="polygon",col="grey99",label=T)
