@@ -25,11 +25,21 @@ site_data <- as.data.frame(site)
 
 species <- googledrive::drive_get("2020_Sept_species_x_site") %>%
   read_sheet()
-species_data <- as.data.frame(species)
+species1 <- as.data.frame(species)
+
+#species_data <- species1 %>%
+#  mutate_if(is.numeric, as.integer)
+
+species_data <- subset(species1, select = -quadrat )
 
 # Species Richness -----
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
+
+
+model_lm <-lm(shannon ~ beach, data = site_data)
+anova(model_lm)
+
 
 # PERMANOVA -----
 
@@ -113,7 +123,7 @@ plot(myNMDS)#sites are open circles and species are red +'s ...but it might be n
 # https://rpubs.com/CPEL/NMDS
 
 ordiplot(myNMDS,type="n") 
-ordihull(myNMDS,groups=site_data$Side,draw="polygon",col="grey99",label=T)
+ordihull(myNMDS,groups=site_data$beach,draw="polygon",col="grey99",label=T)
 orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
 orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
 
