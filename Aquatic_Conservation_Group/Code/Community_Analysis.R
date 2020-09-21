@@ -40,6 +40,11 @@ site_data$simpson <- (diversity(species_data, index = "simpson"))
 model_lm <-lm(shannon ~ beach, data = site_data)
 anova(model_lm)
 
+ggplot(data = site_data, aes(beach, simpson)) + 
+  geom_boxplot(aes(fill = beach)) +
+  labs(y = "Shannon Diversity", x = "Beach") +
+  theme(legend.position = "none")
+
 
 # PERMANOVA -----
 
