@@ -14,9 +14,9 @@ library(ggfortify)
 
 
 # Remove this from final analysis, this is data for practice
-species_data<-read.csv("species_x_site.csv")
-site_data<-read.csv("site_x_environment.csv")
-site_data$Location<-as.factor(site_data$Location)
+#species_data<-read.csv("species_x_site.csv")
+#site_data<-read.csv("site_x_environment.csv")
+#site_data$Location<-as.factor(site_data$Location)
 
 # Read sheets from google drive
 site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
@@ -34,7 +34,6 @@ species_data <- subset(species1, select = -quadrat )
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
 
-
 model_lm <-lm(shannon ~ beach, data = site_data)
 anova(model_lm)
 
@@ -50,9 +49,8 @@ ggplot(data = site_data, aes(beach, simpson)) +
 
 
 
-
 # Ordination: nMDS -----
-myNMDS<-metaMDS(species_data,k=2)
+myNMDS <- metaMDS(species_data, k = 2)
 myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
 stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
 
@@ -61,16 +59,10 @@ plot(myNMDS)#sites are open circles and species are red +'s ...but it might be n
 # link for graphing help
 # https://rpubs.com/CPEL/NMDS
 
-ordiplot(myNMDS,type="n") 
-ordihull(myNMDS,groups=site_data$beach,draw="polygon",col="grey99",label=T)
-orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
-orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
-
-ordiplot(myNMDS,type="n") 
-ordihull(myNMDS,groups=site_data$Location,draw="polygon",col="grey99",label=T)
-orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
-orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
-
+ordiplot(myNMDS, type = "n") 
+ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
+orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9) 
+orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
 
 
