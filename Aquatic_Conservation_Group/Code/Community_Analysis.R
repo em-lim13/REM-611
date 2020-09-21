@@ -27,9 +27,7 @@ species <- googledrive::drive_get("2020_Sept_species_x_site") %>%
   read_sheet()
 species1 <- as.data.frame(species)
 
-#species_data <- species1 %>%
-#  mutate_if(is.numeric, as.integer)
-
+# cut the quadrant ID from species data for analysis
 species_data <- subset(species1, select = -quadrat )
 
 # Species Richness -----
@@ -40,12 +38,43 @@ site_data$simpson <- (diversity(species_data, index = "simpson"))
 model_lm <-lm(shannon ~ beach, data = site_data)
 anova(model_lm)
 
+
+# Graph Shannon diversity
+theme_set(theme_classic(base_size = 16)) # set default settings
+
 ggplot(data = site_data, aes(beach, simpson)) + 
   geom_boxplot(aes(fill = beach)) +
   labs(y = "Shannon Diversity", x = "Beach") +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  scale_x_discrete(labels = c('Bluestone Beach','Boulder Beach','Dunbar Beach', 'Whytecliff Park'))
 
 
+
+
+# Ordination: nMDS -----
+myNMDS<-metaMDS(species_data,k=2)
+myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
+stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
+
+plot(myNMDS)#sites are open circles and species are red +'s ...but it might be nice to label these, and connect samples in the same treatment
+
+# link for graphing help
+# https://rpubs.com/CPEL/NMDS
+
+ordiplot(myNMDS,type="n") 
+ordihull(myNMDS,groups=site_data$beach,draw="polygon",col="grey99",label=T)
+orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
+orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
+
+ordiplot(myNMDS,type="n") 
+ordihull(myNMDS,groups=site_data$Location,draw="polygon",col="grey99",label=T)
+orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
+orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
+
+
+
+
+# EXTRA -------
 # PERMANOVA -----
 
 # adonis
@@ -116,24 +145,3 @@ pca_plot <-
   theme_classic() 
 
 pca_plot
-
-# Ordination: nMDS -----
-myNMDS<-metaMDS(species_data,k=2)
-myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
-stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
-
-plot(myNMDS)#sites are open circles and species are red +'s ...but it might be nice to label these, and connect samples in the same treatment
-
-# link for graphing help
-# https://rpubs.com/CPEL/NMDS
-
-ordiplot(myNMDS,type="n") 
-ordihull(myNMDS,groups=site_data$beach,draw="polygon",col="grey99",label=T)
-orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
-orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
-
-ordiplot(myNMDS,type="n") 
-ordihull(myNMDS,groups=site_data$Location,draw="polygon",col="grey99",label=T)
-orditorp(myNMDS,display="species",col="purple4",air=0.01, cex=0.9) 
-orditorp(myNMDS,display="sites",cex=0.75,air=0.01)
-
