@@ -34,7 +34,7 @@ species_data <- subset(species1, select = -quadrat )
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
 
-anova_model <- aov(shannon ~ region * beach, data = site_data)
+anova_model <- aov(shannon ~ management * beach, data = site_data)
 summary(anova_model)
 
 
