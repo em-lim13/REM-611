@@ -34,18 +34,35 @@ species_data <- subset(species1, select = -quadrat )
 site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
 site_data$simpson <- (diversity(species_data, index = "simpson"))
 
-model_lm <-lm(shannon ~ beach, data = site_data)
-anova(model_lm)
+anova_model <- aov(shannon ~ region * beach, data = site_data)
+summary(anova_model)
 
 
-# Graph Shannon diversity
+# Graph Shannon diversity -----
 theme_set(theme_classic(base_size = 16)) # set default settings
 
-ggplot(data = site_data, aes(beach, simpson)) + 
+ggplot(data = site_data, aes(beach, shannon)) + 
   geom_boxplot(aes(fill = beach)) +
   labs(y = "Shannon Diversity", x = "Beach") +
   theme(legend.position = "none") +
   scale_x_discrete(labels = c('Bluestone Beach','Boulder Beach','Dunbar Beach', 'Whytecliff Park'))
+
+# PERMANOVA -----
+
+# adonis
+dissim_mat <- vegdist(species_data, method = "horn")
+adonis(dissim_mat ~ management + beach, data = site_data, permutations = 9999)
+# this looks at species distribution as function of environmental data
+
+#Terms added sequentially (first to last)
+
+#           Df  SumsOfSqs  MeanSqs     F.Model      R2      Pr(>F)    
+#management  2    1.4404    0.72020   9.0515      0.36986  1e-04 ***
+#  beach     1    0.8627    0.86266   10.8419     0.22151  1e-04 ***
+#  Residuals20    1.5913    0.07957               0.40862           
+#Total      23    3.8944                          1.00000           
+---
+#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 
 
@@ -58,6 +75,9 @@ plot(myNMDS)#sites are open circles and species are red +'s ...but it might be n
 
 # link for graphing help
 # https://rpubs.com/CPEL/NMDS
+# https://www.rpubs.com/RGrieger/545184
+
+
 
 ordiplot(myNMDS, type = "n") 
 ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
@@ -67,11 +87,7 @@ orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
 
 # EXTRA -------
-# PERMANOVA -----
 
-# adonis
-dissim.mat <- vegdist(species_data, method="horn")
-adonis(dissim.mat ~ Side*Total_distance_m, data=site.data, strata = site.data$Location, permutations=9999)
 
 # PCA -----
 
