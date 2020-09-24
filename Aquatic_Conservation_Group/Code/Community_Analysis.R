@@ -11,6 +11,7 @@ library(lme4)
 library(lmerTest)
 library(googlesheets4)
 library(ggfortify)
+library(ggimage)
 
 
 # Remove this from final analysis, this is data for practice
@@ -47,23 +48,15 @@ ggplot(data = site_data, aes(beach, shannon)) +
   theme(legend.position = "none") +
   scale_x_discrete(labels = c('Bluestone Beach','Boulder Beach','Dunbar Beach', 'Whytecliff Park'))
 
+ggsave("../Figures/shannon.png", device = "png",
+      height = 9, width = 16, dpi = 400)
+
 # PERMANOVA -----
 
 # adonis
 dissim_mat <- vegdist(species_data, method = "horn")
 adonis(dissim_mat ~ management + beach, data = site_data, permutations = 9999)
 # this looks at species distribution as function of environmental data
-
-#Terms added sequentially (first to last)
-
-#           Df  SumsOfSqs  MeanSqs     F.Model      R2      Pr(>F)    
-#management  2    1.4404    0.72020   9.0515      0.36986  1e-04 ***
-#  beach     1    0.8627    0.86266   10.8419     0.22151  1e-04 ***
-#  Residuals20    1.5913    0.07957               0.40862           
-#Total      23    3.8944                          1.00000           
----
-#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
 
 
 # Ordination: nMDS -----
@@ -77,14 +70,53 @@ plot(myNMDS)#sites are open circles and species are red +'s ...but it might be n
 # https://rpubs.com/CPEL/NMDS
 # https://www.rpubs.com/RGrieger/545184
 
-
-
 ordiplot(myNMDS, type = "n") 
 ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
 orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9) 
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
+# ordination plot with ggplot
+myNMDS <- metaMDS(species_data, k = 2)
+my_envfit <- envfit(myNMDS, site_data, permutations = 999)
+spp_fit <- envfit(myNMDS, species_data, permutations = 999)
 
+#save NMDS results into dataframe
+site_scrs <- as.data.frame(scores(myNMDS, display = "sites")) 
+
+#add grouping variable "Management" to dataframe
+site_scrs <- cbind(site_scrs, Beach = site_data$beach) 
+
+#add grouping variable of cluster grouping to dataframe
+site_scrs <- cbind(site_scrs, Management = site_data$management) 
+
+head(site_scrs)
+
+spp_scrs <- as.data.frame(scores(spp_fit, display = "vectors")) #save species intrinsic values into dataframe
+spp_scrs <- cbind(spp_scrs, Species = rownames(spp_scrs)) #add species names to dataframe
+spp_scrs <- cbind(spp_scrs, pval = spp_fit$vectors$pvals) #add pvalues to dataframe so you can select species which are significant
+#spp.scrs<- cbind(spp.scrs, abrev = abbreviate(spp.scrs$Species, minlength = 6)) #abbreviate species names
+sig_spp_scrs <- subset(spp_scrs, pval<=0.05) #subset data to show species significant at 0.05
+
+head(spp_scrs)
+
+env_scores <- as.data.frame(scores(my_envfit, display = "vectors")) #extracts relevant scores from envifit
+env_scores <- cbind(env_scores, env.variables = rownames(env_scores)) #and then gives them their names
+
+env_scores <- cbind(env_scores, pval = my_envfit$vectors$pvals) # add pvalues to dataframe
+sig_env_scrs <- subset(env_scores, pval<=0.05) #subset data to show variables significant at 0.05
+
+head(env_scores)
+
+#plot
+nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
+  geom_point(aes(NMDS1, NMDS2, colour = factor(site_scrs$Beach), shape = factor(site_scrs$Management)), size = 2)+ #adds site points to plot, shape determined by Landuse, colour determined by Management
+  coord_fixed()+
+  theme_classic()+ 
+  theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid"))+
+  labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Landuse
+  theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 12), axis.text = element_text(size = 10)) # add legend at right of plot
+
+nmds_plot + labs(title = "Basic ordination plot") #displays plot
 
 # EXTRA -------
 
