@@ -111,7 +111,7 @@ head(env_scores)
 
 #plot
 nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
-  geom_point(aes(NMDS1, NMDS2, colour = factor(site_scrs$Beach), shape = factor(site_scrs$Management)), size = 2)+ #adds site points to plot, shape determined by Landuse, colour determined by Management
+  geom_point(aes(NMDS1, NMDS2, colour = factor(Beach), shape = factor(Management)), size = 2)+ #adds site points to plot, shape determined by Landuse, colour determined by Management
   coord_fixed()+
   theme_classic()+ 
   theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid"))+
@@ -130,19 +130,19 @@ signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
 
 
 # add a new column for the file names
-images <- c("ian-symbol-sponge-1.svg", "ian-symbol-gammarus-spp.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-pachygraspus-marmoratus.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-oyster.svg", "ian-symbol-hermit-crab.svg", "ian-symbol-seastar-3.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-barnacle-open.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-mussels-2.svg")
+images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-littoraria-spp.png", "ian-symbol-amphipod.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-littoraria-spp.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-oyster.png", "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
 
 
 #add image names to dataframe
 signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
 
-nmds_plot + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 2)
-  
-#  ggrepel::geom_text_repel(data = spp_scrs, aes(x=NMDS1, y=NMDS2, label = Species), cex = 3, direction = "both", segment.size = 0.25) #add labels for species, use ggrepel::geom_text_repel so that labels do not overlap
+
+# add species images
+nmds_plot2 <- nmds_plot + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.1)
 
 
-#add species images
-nmds_plot + geom_image(aes(image = image_col), size = 2)
+
+
 
 
 
