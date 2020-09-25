@@ -139,6 +139,8 @@ print(nmds_plot1)
 
 
 #add species images
+# get images here https://ian.umces.edu/imagelibrary/
+# convert sdv to png here https://svgtopng.com/
 
 # order species
 signif_spp_scrs1 <- spp_scrs[order(spp_scrs$pval),]
@@ -148,7 +150,7 @@ signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
 
 
 # add a new column for the file names
-images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png","ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-sea-anemone-2.png", "ian-symbol-amphipod.png", "ian-symbol-urosalpinx-cinerea.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-littoraria-spp.png",  "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png",  "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
+images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png","ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-sea-anemone-2.png", "ian-symbol-amphipod.png", "ian-symbol-urosalpinx-cinerea.png", "ian-symbol_cellana_exarata.png", "ian-symbol-littoraria-spp.png",  "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png",  "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
 
 
 #add image names to dataframe
