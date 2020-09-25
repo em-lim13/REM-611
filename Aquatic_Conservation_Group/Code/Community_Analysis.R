@@ -66,16 +66,16 @@ myNMDS <- metaMDS(species_data, k = 2)
 myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
 stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
 
-plot(myNMDS)#sites are open circles and species are red +'s ...but it might be nice to label these, and connect samples in the same treatment
-
 # link for graphing help
 # https://rpubs.com/CPEL/NMDS
 # https://www.rpubs.com/RGrieger/545184
 
+#ugly plot
 ordiplot(myNMDS, type = "n") 
 ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
 orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9) 
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
+
 
 # ordination plot with ggplot
 myNMDS <- metaMDS(species_data, k = 2)
@@ -118,7 +118,17 @@ nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
   labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Landuse
   theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 12), axis.text = element_text(size = 10)) # add legend at right of plot
 
-nmds_plot + labs(title = "Basic ordination plot") #displays plot
+# make polygons
+ordi_hull <- 
+  site_scrs %>% 
+  group_by(Beach) %>% 
+  slice(chull(NMDS1, NMDS2))
+
+nmds_plot1 <- nmds_plot + geom_polygon(data = ordi_hull,
+                                        aes(fill = Beach),
+                                        alpha = 0.2,
+                                        show.legend = FALSE)
+print(nmds_plot1)
 
 #add species
 
@@ -138,13 +148,12 @@ signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
 
 
 # add species images
-nmds_plot2 <- nmds_plot + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.1)
+nmds_plot2 <- nmds_plot1 + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.1)
 
+print(nmds_plot2)
 
-
-
-
-
+ggsave("../Figures/ordination.png", device = "png",
+       height = 9, width = 16, dpi = 400)
 
 # EXTRA -------
 
