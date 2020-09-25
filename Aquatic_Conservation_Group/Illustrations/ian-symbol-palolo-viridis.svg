@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="501px" width="447px" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<title>Palolo virdis (Samoan Palolo Worm)</title>
+<desc xmlns:ian_image_library="http://ian.umces.edu/imagelibrary/">
+      <ian_image_library:title>Palolo virdis (Samoan Palolo Worm)</ian_image_library:title>
+      <ian_image_library:descr>Illustration of the edible portion of the polychaete worm Palolo viridis.</ian_image_library:descr>
+      <ian_image_library:scene>
+		<ian_image_library:contains>symbol,vector,illustration,palolo,palolo harvest,palolo swarming,Annelida,Polychaeta,Aciculata,Eunicida,Eunicidae,Palolo </ian_image_library:contains>
+        <ian_image_library:when>2010-07-30</ian_image_library:when>
+	  </ian_image_library:scene>
+   </desc>
+    <metadata
+		id="metadata-iil-d19f74707895bdc48d1f7e28fa0efa24">
+      <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/" />
+        <dc:title>Palolo virdis (Samoan Palolo Worm)</dc:title>
+		<dc:date>2010-07-30</dc:date>
+        <dc:creator>
+			<cc:Agent>
+				<dc:title>Joanna Woerner</dc:title>
+			</cc:Agent>
+		</dc:creator>
+		<dc:rights>
+          <cc:Agent>
+            <dc:title>Joanna Woerner, Integration and Application Network</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Integration and Application Network</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+		<dc:identifier>http://ian.umces.edu/imagelibrary/displayimage-6645.html</dc:identifier>
+        <dc:source>http://ian.umces.edu/imagelibrary/displayimage-6645.html</dc:source>
+        <dc:language>en-US</dc:language>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>symbol,vector,illustration,palolo,palolo harvest,palolo swarming,Annelida,Polychaeta,Aciculata,Eunicida,Eunicidae,Palolo </rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:coverage></dc:coverage>
+        <dc:description>Illustration of the edible portion of the polychaete worm Palolo viridis.</dc:description>
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+	
+<defs>
+</defs>
+<linearGradient id="ian_symbols_08fb3e03f9127454b51d23eadbbc592f" gradientUnits="userSpaceOnUse" x1="0" y1="303.2412" x2="445.106" y2="303.2412" gradientTransform="matrix(1 0 0 -1 0 503)">
+	<stop  offset="0.1166" style="stop-color:#A63937"/>
+	<stop  offset="0.4049" style="stop-color:#D35C47"/>
+	<stop  offset="0.5176" style="stop-color:#D86F59"/>
+	<stop  offset="0.7313" style="stop-color:#E89D82"/>
+	<stop  offset="0.7724" style="stop-color:#E8A38B"/>
+	<stop  offset="0.8346" style="stop-color:#EAB29E"/>
+	<stop  offset="0.9101" style="stop-color:#EECCC1"/>
+	<stop  offset="0.9953" style="stop-color:#F2EFEF"/>
+	<stop  offset="1" style="stop-color:#F2F2F2"/>
+</linearGradient>
+<path fill="url(#ian_symbols_08fb3e03f9127454b51d23eadbbc592f)" d="M301.196,182.039c21.979,8.571,10.206,54.882,25.063,72.584
+	c19.334,23.027,59.109,32.57,82.111,51.268c18.246,14.817,24.918,43.787,6.473,62.325c-27.189,27.362-59.27,13.462-83.787-8.118
+	c-12.811-11.283-25.302-22.99-38.045-34.365c-17.647-15.748-11.509-45.647-15.603-66.151c-5.156-25.714-26.937-68.771-43.016-89.607
+	c-21.98-28.505-52.412-44.664-80.543-66.179c-24.066-18.378-28.438-51.176-58.671-59.189c-19.349-5.143-24.73,5.475-47.708-8.025
+	c-12.463-7.337-21.234-23.59-29.353-35.019C14.927-2.929-3.292,3.158,0.522,8.54C19.99,35.941,35.366,53.442,69.625,53.734
+	c29.753,0.252,40.664,30.538,56.997,48.452c17.156,18.817,42.298,31.083,62.629,46.085c37.143,27.401,71.708,99.188,72.372,145.328
+	c0.639,42.977,51.388,77.314,84.517,98.418c39.059,24.862,104.705-16.387,98.564-60.771c-5.729-41.448-63.455-59.148-93.367-77.565
+	c-31.43-19.35-18.004-82.182-43.837-84.016c-5.362-0.381-19.683,8.429-12.666,11.167L301.196,182.039z"/>
+<radialGradient id="ian_symbols_13d8ec6102083714f98d2f1fea18c6be" cx="138.3267" cy="103.3677" r="100.6751" gradientTransform="matrix(0.8018 -0.5976 -0.3106 -0.4167 161.9246 353.8694)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.3742" style="stop-color:#D35C47"/>
+	<stop  offset="0.4972" style="stop-color:#D4604A"/>
+	<stop  offset="0.612" style="stop-color:#D76B54"/>
+	<stop  offset="0.7236" style="stop-color:#DD7D65"/>
+	<stop  offset="0.8327" style="stop-color:#E6977E"/>
+	<stop  offset="0.8528" style="stop-color:#E89D82"/>
+</radialGradient>
+<path fill="url(#ian_symbols_13d8ec6102083714f98d2f1fea18c6be)" d="M178.833,298.145c-0.983-3.563-5.604,3.588-6.534,0c-0.957-3.654-2.832-18.319-2.632-22.146
+	c0.452-8.969,0.364-16.853,2.632-26.833c2.468-10.859,6.388-22.675,11.77-32.401c11.508-22.472,47.455-47.547,61.156-50.206
+	c13.688-2.671,15.189-2.724,23.508-2.724c7.296,0,34.339,1.821,39.229,4.625c3.096,1.768,8.862,3.462,6.538,5.708
+	c-1.184,1.143-11.894,7.01-13.303,7.874c-2.604,1.594-19.229,3.056-23.694,2.737c-16.451-1.156-48.051,18.737-52.131,22.06
+	c-6.458,5.263-27.481,32.066-31.708,40.12c-2.485,4.731-4.306,10.287-5.754,15.548c-2.06,7.467-5.089,14.151-6.658,21.605
+	c-0.97,4.639-1.965,9.236-1.82,14.033"/>
+<radialGradient id="ian_symbols_dc09b175835fd234c9d9c6ca1af26759" cx="174.5635" cy="-89.5425" r="68.2031" gradientTransform="matrix(0.8514 -0.5246 -0.2816 -0.457 88.5855 479.421)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.4847" style="stop-color:#D35C47"/>
+	<stop  offset="0.6183" style="stop-color:#D67963"/>
+	<stop  offset="0.7528" style="stop-color:#D98E7A"/>
+	<stop  offset="0.8823" style="stop-color:#DB9C88"/>
+	<stop  offset="1" style="stop-color:#DB9F8C"/>
+</radialGradient>
+<path fill="url(#ian_symbols_dc09b175835fd234c9d9c6ca1af26759)" d="M241.809,433.358c-1.354,2.019,3.017,6.724,4.877,7.681c2.458,1.262,8.505,1.648,11.282,0.863
+	c8.186-2.326,6.857-11.562,7.322-17.927c4.57-1.303,9.168-14.884,10.246-16.505c1.234-1.848,3.295-2.152,5.262-3.083
+	c1.928,2.379,10.525,15.895,12.187,20.094c2.405,6.126,1.382,14.06-1.899,19.825c-2.166,3.787-15.416,15.177-20,17.063
+	c-8.758,3.589-19.217,7.456-28.744,6.1c-5.076-0.717-16.213-4.916-14.764-11.281c1.235-5.476,3.933-8.851,6.922-13.607
+	c2.141-3.402,2.951-6.404,6.699-8.305"/>
+<linearGradient id="ian_symbols_8ae4485c160508a4a180050483a5f170" gradientUnits="userSpaceOnUse" x1="207.8145" y1="146.5874" x2="255.0367" y2="181.309" gradientTransform="matrix(1 0 0 -1 0 503)">
+	<stop  offset="0.092" style="stop-color:#DB9F8C"/>
+	<stop  offset="0.2625" style="stop-color:#D77E69"/>
+	<stop  offset="0.4244" style="stop-color:#D3654F"/>
+	<stop  offset="0.5215" style="stop-color:#D35C47"/>
+</linearGradient>
+<path fill="url(#ian_symbols_8ae4485c160508a4a180050483a5f170)" d="M253.755,409.306c-2.963-4.065-4.811-9.01-8.066-13.104c-1.729-2.179-4.08-3.802-5.648-6.086
+	c-1.74-2.552-2.75-5.448-4.69-7.92c-2.06-2.632-4.61-4.679-6.618-7.376c-3.189-4.266-6.472-8.838-10.139-12.678
+	c-6.405-6.737-14.578-11.375-21.023-18.112c-2.711-2.817-4.89-5.621-7.614-8.372c-3.15-3.163-5.196-5.86-6.99-9.809
+	c-5.633-12.357-13.447-24.385-9.673-37.754c3.349-11.894,10.19-18.046,16.344-31.348c0.465,8.678-2.949,17.607-0.211,26.1
+	c2.618,8.146,10.1,15.68,14.365,22.816c5.316,8.863,12.93,16.93,20.413,24.066c4.836,4.61,9.129,8.996,14.551,12.93
+	c2.125,1.568,4.811,2.671,6.711,4.492c3.414,3.269,5.688,7.613,9.156,10.988c8.969,8.719,15.945,20,21.541,31.137
+	c2.645,5.25,8.851,15.296,6.231,21.263c-2.192,4.971-9.476,12.877-15.202,13.516c-3.721,0.411-3.429-3.986-5.701-6.777
+	C259.138,414.396,255.96,412.296,253.755,409.306z"/>
+<radialGradient id="ian_symbols_30e4daf519072e24952fe0057ec2cccc" cx="38.4595" cy="368.1318" r="67.9587" gradientTransform="matrix(-0.9612 0.2758 0.2787 0.9711 91.7111 70.822)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.681" style="stop-color:#D35C47"/>
+	<stop  offset="0.8957" style="stop-color:#DB9F8C"/>
+</radialGradient>
+<path fill="url(#ian_symbols_30e4daf519072e24952fe0057ec2cccc)" d="M175.834,451.867c-1.104,6.87-8.285,16.095-15.155,17.33c-6.378,1.13-0.877-27.029-1.036-33.049
+	c-3.416,2.34-16,34.483-16,37.114c0,9.596-2.685,20.279,7.322,24.771c12.425,5.566,29.076-1.25,35.441-13.396
+	C192.095,473.756,175.834,451.867,175.834,451.867z"/>
+<radialGradient id="ian_symbols_f49a525865038bd44ddc5f3545a53f9a" cx="-57.8501" cy="1.022" r="120.937" gradientTransform="matrix(0.0178 -0.9998 -0.3881 -0.0069 167.5514 373.5054)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.4908" style="stop-color:#D35C47"/>
+	<stop  offset="0.7143" style="stop-color:#E79C87"/>
+	<stop  offset="0.9816" style="stop-color:#FEE4D2"/>
+</radialGradient>
+<path fill="url(#ian_symbols_f49a525865038bd44ddc5f3545a53f9a)" d="M157.518,377.719c-1.728-7.203-7.069-12.146-8.904-19.164c-0.744-0.291-6.75-1.408-7.481-1.435
+	c-2.525,5.315-7.575,12.903-9.648,18.392c-3.335,8.877-2.697,19.084-2.219,28.292c1.049,20.199-1.662,40.519,4.08,60.251
+	c1.674,5.741,9.262,29.383,13.568,29.914c1.143-0.665,0.066-7.376,1.262-8.026c-0.093-2.963,3.375-23.866,4.213-25.953
+	c6.1-15.335,3.84-11.097,6.658-20.837c3.654-12.729-6.046-28.729-1.289-41.421C159.896,392.029,159.033,384.057,157.518,377.719z"/>
+<radialGradient id="ian_symbols_8639a2f9e32ad9c49d78ee76ecf4eaed" cx="108.936" cy="302.416" r="70.2453" gradientTransform="matrix(1 0 0 -1 0 503)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.5031" style="stop-color:#DB9F8C"/>
+	<stop  offset="0.6691" style="stop-color:#DE9988"/>
+	<stop  offset="0.9065" style="stop-color:#E1857B"/>
+	<stop  offset="1" style="stop-color:#E37C75"/>
+</radialGradient>
+<path fill="url(#ian_symbols_8639a2f9e32ad9c49d78ee76ecf4eaed)" d="M122.859,273.28c14.511-1.103,28.837-1.914,39.562-12.61c16.425-16.399,16.397-38.738,10.977-60.16
+	c-1.422-5.634-3.548-11.003-4.997-16.598c-1.116-4.279-3.562-7.282-4.678-11.349c-1.488-5.409-1.315-5.422-5.86-9.116
+	c-4.638-3.774-7.814-8.385-12.611-12.013c-18.472-13.94-40.026-23.495-63.747-23.547c-10.432-0.026-12.412,5.155-19.083,12.079
+	c-2.618,2.711-6.246,4.452-8.757,7.11c-1.781,1.874-3.296,5.05-4.957,7.216c-4.491,5.86-10.139,11.974-6.086,19.468
+	c1.701,3.163,2.977,7.867,5.183,10.578c3.123,3.827,12.717,6.631,17.382,4.239c2.499-1.289,4.319-5.396,6.365-7.495
+	c2.392-2.458,5.13-4.678,8.438-5.781c7.003-2.339,15.521-0.412,22.377,1.209c6.964,1.648,14.047,2.777,21.156,4.252
+	c10.738,2.232,10.884,12.864,10.884,22.246c0,7.563,1.355,18.166-4.851,22.737c-3.88,2.857-8.943,4.013-13.794,5.236
+	C128.561,242.437,131.83,259.315,122.859,273.28z"/>
+<linearGradient id="ian_symbols_93c736757519e1542128945ade3b0575" gradientUnits="userSpaceOnUse" x1="207.7056" y1="87.2637" x2="249.019" y2="92.4613" gradientTransform="matrix(1 0 0 -1 0 503)">
+	<stop  offset="0.0982" style="stop-color:#FCC6A2"/>
+	<stop  offset="0.1272" style="stop-color:#F8BB98"/>
+	<stop  offset="0.2564" style="stop-color:#E89276"/>
+	<stop  offset="0.3737" style="stop-color:#DD755B"/>
+	<stop  offset="0.4742" style="stop-color:#D6624D"/>
+	<stop  offset="0.546" style="stop-color:#D35C47"/>
+</linearGradient>
+<path fill="url(#ian_symbols_93c736757519e1542128945ade3b0575)" d="M227.656,460.692c-1.873-1.729-4.425-2.18-6.326-3.974c-1.223-1.17-2.086-3.137-3.003-4.545
+	c-2.006-3.109-2.604-6.127-3.282-9.754c-1.409-7.508-1.94-15.069-1.582-22.737c0.359-7.229,3.721-14.563,2.445-21.926
+	c-0.665-3.827-3.083-8.346-4.917-11.774c-1.714-3.229-6.937-5.834-6.883-9.342c0.133-9.66,21.966-11.906,28.026-9.037
+	c4.877,2.313,9.275,12.134,9.475,17.196c0.333,7.827-0.227,14.538-0.65,22.18c-0.199,3.494,0.65,7.614,0.65,11.122
+	c0,4.52-0.703,7.921-0.133,12.146c1.768,13.088-13.859,17.978-13.156,29.727L227.656,460.692z"/>
+<radialGradient id="ian_symbols_7e76c396f38813a425e4799582c83880" cx="247.0503" cy="63.6846" r="39.5998" gradientTransform="matrix(0.9511 0.3089 0.1611 -0.4959 -38.88 323.4534)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.0798" style="stop-color:#DB9F8C"/>
+	<stop  offset="0.4626" style="stop-color:#D67C67"/>
+	<stop  offset="0.7957" style="stop-color:#D3654F"/>
+	<stop  offset="1" style="stop-color:#D35C47"/>
+</radialGradient>
+<path fill="url(#ian_symbols_7e76c396f38813a425e4799582c83880)" d="M183.948,345.932c5.501-0.427,11.562,2.299,17.063,2.844c3.708,0.371,7.628,1.022,10.95,2.724
+	c5.887,3.017,10.033,3.642,17.169,10.806c2.352,2.379,8.717,5.514,11.666,19.188c1.355,6.285,4.214-6.711-18.178-13.913
+	c-4.824-1.556-13.714,11.508-18.791,11.242c-3.415-0.173-7.641,1.383-10.937,0.411c-0.651-0.198-1.688-0.025-2.392-0.053
+	c-0.106-2.671-3.728-6.529-4.126-9.307c-0.598-4.12-0.605-6.255-1.947-10.137c-1.183-3.4-4.824-9.514-4.492-12.915
+	c0.638-0.2,1.315-0.452,1.98-0.479"/>
+<radialGradient id="ian_symbols_c90f59d4697930e45d7d1a7c093f08fc" cx="221.4585" cy="296.5762" r="167.9646" gradientTransform="matrix(0.4531 0.8915 0.2642 -0.1343 -41.7739 215.9168)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0.1227" style="stop-color:#FCC6A2"/>
+	<stop  offset="0.6442" style="stop-color:#D35C47"/>
+</radialGradient>
+<path fill="url(#ian_symbols_c90f59d4697930e45d7d1a7c093f08fc)" d="M184.972,487.031c-3.295-5.263-3.548-16.491-5.993-22.285c-2.112-4.983-3.602-9.263-3.029-14.646
+	c1.235-11.507-2.046-33.991-5.501-45.327c-4.146-13.635-11.375-18.313-17.222-31.562c-1.196-2.726-11.721-14.485-13.276-18.101
+	c-1.568-3.653-0.186-13.182,1.993-16.346c2.525-3.668,11.495-9.488,15.721-11.602c6.113-3.068,10.778,0.054,14.738,4.771
+	c7.601,9.049,9.46,22.179,14.338,32.771c2.99,6.498,7.508,11.733,10.645,17.927c5.023,9.913,9.648,33.436,10.219,45.541
+	c0.252,5.104,0.013,29.847-7.88,42.616c-2.246,3.642-10.418,14.552-14.325,15.575"/>
+<linearGradient id="ian_symbols_0bd31d3ad2e3d70421c09cb02452ad39" gradientUnits="userSpaceOnUse" x1="58.4907" y1="211.0752" x2="168.2739" y2="211.0752" gradientTransform="matrix(1 0 0 -1 0 503)">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.5031" style="stop-color:#DB9F8C"/>
+	<stop  offset="0.6691" style="stop-color:#DE9988"/>
+	<stop  offset="0.9065" style="stop-color:#E1857B"/>
+	<stop  offset="1" style="stop-color:#E37C75"/>
+</linearGradient>
+<path fill="url(#ian_symbols_0bd31d3ad2e3d70421c09cb02452ad39)" d="M168.202,327.938c0.691-0.387-3.748-4.651-5.568-5.741c-13.209-7.854-28.026-14.618-48.996-15.867
+	c-4.186-0.239-12.465-2.192-14.937-5.714c-2.272-3.229-0.837-11.256,0.904-14.553c4.385-8.357,12.518-11.973,21.089-12.61
+	c0.718-0.054,1.436-0.119,2.166-0.172c8.97-13.967,5.701-30.844-7.096-42.299c-2.392,0.598-4.811,1.116-7.203,1.475
+	c-7.069,1.063-15.216,1.063-21.807,3.987c-4.691,2.1-7.747,5.608-11.495,9.116c-5.542,5.169-12.638,11.682-14.897,19.177
+	c-2.1,6.988-1.9,16.025-1.834,23.334c0.066,6.685,0.784,15.906,4.146,21.501c11.615,19.296,24.704,33.661,47.973,36.864
+	c5.794,0.797,11.349,1.979,17.023,2.977c3.628,0.625,8.55,1.344,11.74,3.456C143.623,343.686,157.89,331.964,168.202,327.938z"/>
+<linearGradient id="ian_symbols_a25fad665e0f5e34f122331c884fe265" gradientUnits="userSpaceOnUse" x1="25.8213" y1="349.9473" x2="41.6622" y2="333.6494" gradientTransform="matrix(1 0 0 -1 0 503)">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.8834" style="stop-color:#DB9F8C"/>
+</linearGradient>
+<path fill="url(#ian_symbols_a25fad665e0f5e34f122331c884fe265)" d="M26.794,151.647c1.369-1.076,14.1,13.688,14.445,15.229c0.333,1.542,1.183,4.412,0,4.864
+	c-1.196,0.465-8.651-8.518-10.179-10.046C29.532,160.166,25.426,152.71,26.794,151.647z"/>
+<linearGradient id="ian_symbols_c84c8e0918251324950faa8710b7dfbc" gradientUnits="userSpaceOnUse" x1="19.6851" y1="404.4863" x2="35.5292" y2="388.1852" gradientTransform="matrix(1.1026 -0.4863 -0.4816 -1.092 191.1761 616.4872)">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.8834" style="stop-color:#DB9F8C"/>
+</linearGradient>
+<path fill="url(#ian_symbols_c84c8e0918251324950faa8710b7dfbc)" d="M18.475,163.208c0.997-1.834,22.14,8.08,23.256,9.608c1.103,1.515,3.442,4.239,2.352,5.315
+	c-1.103,1.077-13.647-5.103-16.066-6.033C25.611,171.182,17.479,165.029,18.475,163.208z"/>
+<linearGradient id="ian_symbols_2b9f998639e940240d873e00fb52c0ef" gradientUnits="userSpaceOnUse" x1="2.2285" y1="451.8398" x2="28.1336" y2="425.1874" gradientTransform="matrix(0.8779 -0.8254 -0.8175 -0.8696 368.878 573.8565)">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.8834" style="stop-color:#DB9F8C"/>
+</linearGradient>
+<path fill="url(#ian_symbols_2b9f998639e940240d873e00fb52c0ef)" d="M0.909,177.016c0.332-2.06,42.244,1.077,43.799,2.14c1.555,1.063,4.665,2.857,3.987,4.239
+	c-0.665,1.382-14.564-0.266-17.156-0.345C28.974,182.996,0.576,179.075,0.909,177.016z"/>
+<linearGradient id="ian_symbols_39fb1f39ec90ee448910c8a55e179c52" gradientUnits="userSpaceOnUse" x1="30.165" y1="533.4502" x2="56.0686" y2="506.7994" gradientTransform="matrix(0.0611 -1.2035 -1.192 -0.0605 653.5358 284.6552)">
+	<stop  offset="0" style="stop-color:#FCDCC5"/>
+	<stop  offset="0.8834" style="stop-color:#DB9F8C"/>
+</linearGradient>
+<path fill="url(#ian_symbols_39fb1f39ec90ee448910c8a55e179c52)" d="M17.665,214.956c-1.196-1.714,31.216-28.491,33.076-28.811c1.847-0.306,5.329-1.156,5.808,0.306
+	c0.465,1.449-10.698,9.887-12.611,11.628C42.037,199.819,18.848,216.67,17.665,214.956z"/>
+</svg>
