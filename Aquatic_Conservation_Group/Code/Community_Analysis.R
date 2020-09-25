@@ -12,6 +12,8 @@ library(lmerTest)
 library(googlesheets4)
 library(ggfortify)
 library(ggimage)
+library(ggrepel)
+library(rsvg)
 
 
 # Remove this from final analysis, this is data for practice
@@ -117,6 +119,32 @@ nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
   theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 12), axis.text = element_text(size = 10)) # add legend at right of plot
 
 nmds_plot + labs(title = "Basic ordination plot") #displays plot
+
+#add species
+
+# order species
+signif_spp_scrs1 <- spp_scrs[order(spp_scrs$pval),]
+
+#cut ones we didn't see
+signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
+
+
+# add a new column for the file names
+images <- c("ian-symbol-sponge-1.svg", "ian-symbol-gammarus-spp.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-pachygraspus-marmoratus.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-littoraria-spp.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-oyster.svg", "ian-symbol-hermit-crab.svg", "ian-symbol-seastar-3.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-barnacle-open.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-mussels-2.svg")
+
+
+#add image names to dataframe
+signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
+
+nmds_plot + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 2)
+  
+#  ggrepel::geom_text_repel(data = spp_scrs, aes(x=NMDS1, y=NMDS2, label = Species), cex = 3, direction = "both", segment.size = 0.25) #add labels for species, use ggrepel::geom_text_repel so that labels do not overlap
+
+
+#add species images
+nmds_plot + geom_image(aes(image = image_col), size = 2)
+
+
 
 # EXTRA -------
 
