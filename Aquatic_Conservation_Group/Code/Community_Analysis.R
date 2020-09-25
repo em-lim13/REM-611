@@ -34,17 +34,20 @@ species1 <- as.data.frame(species)
 species_data <- subset(species1, select = -quadrat )
 
 # Species Richness -----
-site_data$shannon <- (diversity(species_data, index = "shannon")) #makes a new column in site data with the shannon values
-site_data$simpson <- (diversity(species_data, index = "simpson"))
+# make a new data frame for richness metrics 
+site_richness <- site_data %>% mutate(
+  shannon = (diversity(species_data, index = "shannon")),
+  simpson = (diversity(species_data, index = "simpson"))
+)
 
-anova_model <- aov(shannon ~ management * beach, data = site_data)
+anova_model <- aov(shannon ~ management * beach, data = site_richness)
 summary(anova_model)
 
 
 # Graph Shannon diversity -----
 theme_set(theme_classic(base_size = 16)) # set default settings
 
-ggplot(data = site_data, aes(beach, shannon)) + 
+ggplot(data = site_richness, aes(beach, shannon)) + 
   geom_boxplot(aes(fill = beach)) +
   labs(y = "Shannon Diversity", x = "Beach") +
   theme(legend.position = "none") +
@@ -87,7 +90,7 @@ spp_fit <- envfit(myNMDS, species_data, permutations = 999)
 #save NMDS results into dataframe
 site_scrs <- as.data.frame(scores(myNMDS, display = "sites")) 
 
-#add grouping variable "Management" to dataframe
+#add grouping variable "Beach" to dataframe
 site_scrs <- cbind(site_scrs, Beach = site_data$beach) 
 
 #add grouping variable of cluster grouping to dataframe
@@ -108,17 +111,18 @@ env_scores <- cbind(env_scores, env.variables = rownames(env_scores)) #and then 
 
 env_scores <- cbind(env_scores, pval = my_envfit$vectors$pvals) # add pvalues to dataframe
 sig_env_scrs <- subset(env_scores, pval<=0.05) #subset data to show variables significant at 0.05
+  # there are no significant variables bc all our data is categorical except distance, which we don't actually care about
 
 head(env_scores)
 
 #plot
 nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
-  geom_point(aes(NMDS1, NMDS2, colour = factor(Beach), shape = factor(Management)), size = 2)+ #adds site points to plot, shape determined by Landuse, colour determined by Management
+  geom_point(aes(NMDS1, NMDS2, colour = factor(Beach), shape = factor(Management)), size = 2)+ #adds site points to plot, shape determined by management, colour determined by beach ID
   coord_fixed()+
   theme_classic()+ 
   theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid"))+
-  labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Landuse
-  theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 12), axis.text = element_text(size = 10)) # add legend at right of plot
+  labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Beach
+  theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 10), axis.text = element_text(size = 10)) # add legend at right of plot
 
 # make polygons
 ordi_hull <- 
@@ -132,20 +136,9 @@ nmds_plot1 <- nmds_plot + geom_polygon(data = ordi_hull,
                                         show.legend = FALSE)
 print(nmds_plot1)
 
-nmds_plot1 +
-  geom_segment(data = signif_spp_scrs, aes(x = 0, xend=NMDS1, y=0, yend=NMDS2), arrow = arrow(length = unit(0.25, "cm")), colour = "grey10", lwd=0.3) + #add vector arrows of significant species
-  ggrepel::geom_text_repel(data = signif_spp_scrs, aes(x=NMDS1, y=NMDS2, label = Species), cex = 3, direction = "both", segment.size = 0.25)+ #add labels for species, use ggrepel::geom_text_repel so that labels do not overlap
-  labs(title = "Ordination with species vectors")
 
 
-
-
-
-
-
-
-
-#add species
+#add species images
 
 # order species
 signif_spp_scrs1 <- spp_scrs[order(spp_scrs$pval),]
@@ -155,12 +148,11 @@ signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
 
 
 # add a new column for the file names
-images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-littoraria-spp.png", "ian-symbol-amphipod.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png", "ian-symbol-littoraria-spp.png", "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
+images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png","ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-sea-anemone-2.png", "ian-symbol-amphipod.png", "ian-symbol-urosalpinx-cinerea.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-littoraria-spp.png",  "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png",  "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
 
 
 #add image names to dataframe
 signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
-
 
 # add species images
 nmds_plot2 <- nmds_plot1 + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.08)
@@ -169,6 +161,27 @@ print(nmds_plot2)
 
 ggsave("../Figures/ordination.png", device = "png",
        height = 9, width = 16, dpi = 400)
+
+
+# make a plot just for the significant species
+#use file sig_spp_scrs
+
+# add a new column for the file names
+sig_images <- c("ian-symbol-littoraria-spp.png", "ian-symbol-urosalpinx-cinerea.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-pachygraspus-marmoratus.png","ian-symbol-sea-anemone-2.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-sponge-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png",  "ian-symbol-amphipod.png", "ian-symbol-amphipod.png")
+
+
+#add image names to dataframe
+sig_spp_scrs_images <- cbind(sig_spp_scrs, sig_images)
+
+# add species images
+sig_nmds_plot <- nmds_plot1 + geom_image(data = sig_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = sig_images), size = 0.08)
+
+print(sig_nmds_plot)
+# looks better with all the species!
+
+
+
+
 
 # EXTRA -------
 
