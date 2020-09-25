@@ -77,7 +77,9 @@ orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
 
-# ordination plot with ggplot
+# Ordination plot with ggplot -----
+#https://www.rpubs.com/RGrieger/545184
+
 myNMDS <- metaMDS(species_data, k = 2)
 my_envfit <- envfit(myNMDS, site_data, permutations = 999)
 spp_fit <- envfit(myNMDS, species_data, permutations = 999)
@@ -130,6 +132,19 @@ nmds_plot1 <- nmds_plot + geom_polygon(data = ordi_hull,
                                         show.legend = FALSE)
 print(nmds_plot1)
 
+nmds_plot1 +
+  geom_segment(data = signif_spp_scrs, aes(x = 0, xend=NMDS1, y=0, yend=NMDS2), arrow = arrow(length = unit(0.25, "cm")), colour = "grey10", lwd=0.3) + #add vector arrows of significant species
+  ggrepel::geom_text_repel(data = signif_spp_scrs, aes(x=NMDS1, y=NMDS2, label = Species), cex = 3, direction = "both", segment.size = 0.25)+ #add labels for species, use ggrepel::geom_text_repel so that labels do not overlap
+  labs(title = "Ordination with species vectors")
+
+
+
+
+
+
+
+
+
 #add species
 
 # order species
@@ -140,7 +155,7 @@ signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
 
 
 # add a new column for the file names
-images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-littoraria-spp.png", "ian-symbol-amphipod.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-littoraria-spp.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-oyster.png", "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
+images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-littoraria-spp.png", "ian-symbol-amphipod.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png", "ian-symbol-littoraria-spp.png", "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
 
 
 #add image names to dataframe
@@ -148,7 +163,7 @@ signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
 
 
 # add species images
-nmds_plot2 <- nmds_plot1 + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.1)
+nmds_plot2 <- nmds_plot1 + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.08)
 
 print(nmds_plot2)
 
