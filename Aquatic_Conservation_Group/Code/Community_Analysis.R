@@ -40,17 +40,18 @@ site_richness <- site_data %>% mutate(
   simpson = (diversity(species_data, index = "simpson"))
 )
 
-anova_model <- aov(shannon ~ management * beach, data = site_richness)
+anova_model <- aov(shannon ~ management + region, data = site_richness)
 summary(anova_model)
+hist(resid(anova_model))
 
 
 # Graph Shannon diversity -----
-theme_set(theme_classic(base_size = 16)) # set default settings
+theme_set(theme_classic(base_size = 28)) # set default settings
 
 ggplot(data = site_richness, aes(beach, shannon)) + 
   geom_boxplot(aes(fill = beach)) +
   labs(y = "Shannon Diversity", x = "Beach") +
-  theme(legend.position = "none") +
+  theme(legend.position = "none", axis.text = element_text(colour = "black")) +
   scale_x_discrete(labels = c('Bluestone Beach','Boulder Beach','Dunbar Beach', 'Whytecliff Park'))
 
 ggsave("../Figures/shannon.png", device = "png",
@@ -67,7 +68,7 @@ adonis(dissim_mat ~ management + beach, data = site_data, permutations = 9999)
 # Ordination: nMDS -----
 myNMDS <- metaMDS(species_data, k = 2)
 myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
-stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
+stressplot(new_NMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
 
 # link for graphing help
 # https://rpubs.com/CPEL/NMDS
@@ -76,13 +77,14 @@ stressplot(myNMDS) #low stress means that the observed dissimilarity between sit
 #ugly plot
 ordiplot(myNMDS, type = "n") 
 ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
-orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9) 
+orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
 
 # Ordination plot with ggplot -----
 #https://www.rpubs.com/RGrieger/545184
 
+set.seed(604671)
 myNMDS <- metaMDS(species_data, k = 2)
 my_envfit <- envfit(myNMDS, site_data, permutations = 999)
 spp_fit <- envfit(myNMDS, species_data, permutations = 999)
@@ -116,13 +118,15 @@ sig_env_scrs <- subset(env_scores, pval<=0.05) #subset data to show variables si
 head(env_scores)
 
 #plot
+theme_set(theme_classic(base_size = 28)) # set default settings
+
 nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
   geom_point(aes(NMDS1, NMDS2, colour = factor(Beach), shape = factor(Management)), size = 2)+ #adds site points to plot, shape determined by management, colour determined by beach ID
   coord_fixed()+
   theme_classic()+ 
   theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid"))+
   labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Beach
-  theme(legend.position = "right", legend.text = element_text(size = 12), legend.title = element_text(size = 10), axis.text = element_text(size = 10)) # add legend at right of plot
+  theme(legend.position = "right", legend.text = element_text(size = 20, colour = "black"), legend.title = element_text(size = 20, colour = "black"), axis.text = element_text(size = 20, colour = "black")) # add legend at right of plot
 
 # make polygons
 ordi_hull <- 
@@ -158,6 +162,7 @@ signif_spp_scrs <- cbind(signif_spp_scrs_cut, images)
 
 # add species images
 nmds_plot2 <- nmds_plot1 + geom_image(data = signif_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = images), size = 0.08)
+
 
 print(nmds_plot2)
 
