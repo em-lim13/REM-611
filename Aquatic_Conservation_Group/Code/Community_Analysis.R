@@ -40,9 +40,13 @@ site_richness <- site_data %>% mutate(
   simpson = (diversity(species_data, index = "simpson"))
 )
 
-anova_model <- aov(shannon ~ management + region, data = site_richness)
+anova_model <- aov(shannon ~ management + beach, data = site_richness)
 summary(anova_model)
 hist(resid(anova_model))
+
+# Post hoc testing
+TukeyHSD(anova_model, "beach")
+TukeyHSD(anova_model, "management")
 
 
 # Graph Shannon diversity -----
@@ -52,7 +56,7 @@ ggplot(data = site_richness, aes(beach, shannon)) +
   geom_boxplot(aes(fill = beach)) +
   labs(y = "Shannon Diversity", x = "Beach") +
   theme(legend.position = "none", axis.text = element_text(colour = "black")) +
-  scale_x_discrete(labels = c('Bluestone Beach','Boulder Beach','Dunbar Beach', 'Whytecliff Park'))
+  scale_x_discrete(labels = c('Bluestone Beach','Collishaw Point','Dunbar Beach', 'Whytecliff Park'))
 
 ggsave("../Figures/shannon.png", device = "png",
       height = 9, width = 16, dpi = 400)
@@ -148,7 +152,8 @@ nmds_plot <- ggplot(site_scrs, aes(x=NMDS1, y=NMDS2))+ #sets up the plot
   theme_classic()+ 
   theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid"))+
   labs(colour = "Beach", shape = "Management")+ # add legend labels for Management and Beach
-  theme(legend.position = "right", legend.text = element_text(size = 20, colour = "black"), legend.title = element_text(size = 20, colour = "black"), axis.text = element_text(size = 20, colour = "black")) # add legend at right of plot
+  theme(legend.position = "right", legend.text = element_text(size = 18, colour = "black"), legend.title = element_text(size = 18, colour = "black"), axis.text = element_text(size = 18, colour = "black")) + # add legend at right of plot
+  theme(axis.title = element_text(size = 18))
 
 #add polygons
 nmds_plot1 <- nmds_plot + geom_polygon(data = ordi_hull,
