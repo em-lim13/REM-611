@@ -16,11 +16,6 @@ library(ggrepel)
 library(rsvg)
 
 
-# Remove this from final analysis, this is data for practice
-#species_data<-read.csv("species_x_site.csv")
-#site_data<-read.csv("site_x_environment.csv")
-#site_data$Location<-as.factor(site_data$Location)
-
 # Read sheets from google drive
 site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
   read_sheet()
