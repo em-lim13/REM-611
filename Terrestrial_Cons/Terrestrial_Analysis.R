@@ -23,10 +23,12 @@ library(emmeans)
 size_data <- googledrive::drive_get("2020_size_data") %>% 
   read_sheet()
 size_data <- as.data.frame(size_data) %>% mutate(
-  forest = as.factor(forest),
-  species = as.factor(species)
+  forest = factor(forest, levels = c("Old", "Second", "Replant")),
+  species = factor(species, levels = c("Cedar", "Hemlock", "Douglas_Fir", "Alder", "Balsam_Poplar", "unknown"))
 )
 str(size_data)
+
+
 
 # species is a dataframe where each row is a plot
 species <- googledrive::drive_get("2020_diversity_data") %>% 
@@ -75,7 +77,7 @@ theme_set(theme_classic(base_size = 28)) # set default settings
 ggplot(data = site_richness, aes(forest, shannon)) + 
   geom_boxplot(aes(fill = forest)) +
   labs(y = "Shannon Diversity", x = "Forest") +
-  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth','Replanted','Second Growth')) +
+  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c("Old Growth", "Second Growth", "Replanted")) +
   scale_fill_manual(values = wood)
 
 ggsave("../Figures/shannon_box.png", device = "png",
@@ -112,22 +114,22 @@ ggplot(data = size_data, aes(forest, diam_m)) +
   geom_point(aes(colour = forest)) + 
   geom_boxplot(aes(fill = forest), alpha = 0.8) +
   labs(y = "Diameter (m)", x = "Forest") +
-  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth','Replanted','Second Growth')) +
+  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth', "Second Growth",'Replanted')) +
   scale_fill_manual(values = wood) + scale_colour_manual(values = wood)
 
 ggsave("../Figures/diam_box.png", device = "png",
-       height = 9, width = 16, dpi = 400)
+       height = 6, width = 10, dpi = 400)
 
 #HEIGHT
 ggplot(data = size_data, aes(forest, height_m)) + 
   geom_point(aes(colour = forest)) + 
   geom_boxplot(aes(fill = forest), alpha = 0.8) +
   labs(y = "Height (m)", x = "Forest") +
-  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth','Replanted','Second Growth')) +
+  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth', "Second Growth","Replanted")) +
   scale_fill_manual(values = wood) + scale_colour_manual(values = wood)
 
 ggsave("../Figures/height_box.png", device = "png",
-       height = 9, width = 16, dpi = 400)
+       height = 6, width = 10, dpi = 400)
 
 
 # adonis ------
@@ -147,3 +149,13 @@ ordiplot(myNMDS, type = "n")
 ordihull(myNMDS, groups = site$forest, draw = "polygon",col = "grey99",label = T)
 orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
+
+
+# GETTING CREATIVE!!!!! ------
+set.seed(66666)
+ggplot(aes(x = forest, y = species, size = diam_m, colour = species), data = size_data) + geom_jitter() + 
+  scale_colour_manual(values = wood, guide = "none") +
+  labs(x = "Forest Stand", y = " ", size = "Diameter (m)")
+
+ggsave("../Figures/forest_size_species.png", device = "png",
+       height = 6, width = 10, dpi = 400)
