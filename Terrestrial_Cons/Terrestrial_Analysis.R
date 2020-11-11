@@ -7,8 +7,6 @@
 library(ggplot2)
 library(tidyverse)
 library(vegan)
-library(lme4)
-library(lmerTest)
 library(googlesheets4)
 library(ggfortify)
 library(ggimage)
@@ -60,6 +58,7 @@ summary(shannon_model) # so old growth is the "control" here
 # replant has a 0.5095 higher shannon
 # second has a 0.2921 higher shannon
 # neither difference is significant
+
 
 # Let's visualize this
 visreg(shannon_model)
@@ -131,6 +130,21 @@ ggplot(data = size_data, aes(forest, height_m)) +
 ggsave("../Figures/height_box.png", device = "png",
        height = 6, width = 10, dpi = 400)
 
+# GETTING CREATIVE!!!!! ------
+set.seed(66666)
+ggplot(aes(x = forest, y = species, size = diam_m, colour = species), data = size_data) + geom_jitter() + 
+  scale_colour_manual(values = wood, guide = "none") +
+  labs(x = "Forest Stand", y = " ", size = "Diameter (m)")
+
+ggsave("../Figures/forest_size_species.png", device = "png",
+       height = 6, width = 10, dpi = 400)
+
+
+set.seed(66666)
+ggplot(aes(x = forest, y = species, size = height_m, colour = species), data = size_data) + geom_jitter() + 
+  scale_colour_manual(values = wood, guide = "none") +
+  labs(x = "Forest Stand", y = " ", size = "Height (m)")
+
 
 # adonis ------
 dissim_mat <- vegdist(species, method = "horn")
@@ -151,11 +165,3 @@ orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
 
-# GETTING CREATIVE!!!!! ------
-set.seed(66666)
-ggplot(aes(x = forest, y = species, size = diam_m, colour = species), data = size_data) + geom_jitter() + 
-  scale_colour_manual(values = wood, guide = "none") +
-  labs(x = "Forest Stand", y = " ", size = "Diameter (m)")
-
-ggsave("../Figures/forest_size_species.png", device = "png",
-       height = 6, width = 10, dpi = 400)
