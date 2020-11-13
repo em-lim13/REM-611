@@ -8,21 +8,20 @@ library(ggplot2)
 library(tidyverse)
 library(vegan)
 library(googlesheets4)
-library(ggfortify)
-library(ggimage)
-library(ggrepel)
-library(rsvg)
 library(visreg)
 library(PNWColors)
 library(car)
-library(emmeans)
+
 
 # Read sheets from google drive
 size_data <- googledrive::drive_get("2020_size_data") %>% 
   read_sheet()
 size_data <- as.data.frame(size_data) %>% mutate(
   forest = factor(forest, levels = c("Old", "Second", "Replant")),
-  species = factor(species, levels = c("Cedar", "Hemlock", "Douglas_Fir", "Alder", "Balsam_Poplar", "unknown"))
+  species = factor(species, levels = c("Cedar", "Hemlock", "Douglas_Fir", "Alder", "Balsam_Poplar", "unknown")),
+  volume = 3.14*height_m*(diam_m/2)^2,
+  x_area = 3.1415*(diam_m/2)^2,
+  dummy = "a"
 )
 str(size_data)
 
@@ -42,7 +41,8 @@ site <- as.data.frame(site)
 site <- subset(site, select = -undergrowth_species )
 
 # make a palette
-wood <- pnw_palette(name="Mushroom", n = 6, type="discrete")
+wood <- pnw_palette(name = "Mushroom", n = 6, type="discrete")
+wood <- c("brown4", wood)
 
 # Biodiversity metrics ------
 
@@ -54,7 +54,7 @@ site_richness <- site %>% mutate(
 
 # look at the output
 shannon_model <- lm(shannon ~ forest, data = site_richness)
-summary(shannon_model) # so old growth is the "control" here
+anova(shannon_model) # so old growth is the "control" here
 # replant has a 0.5095 higher shannon
 # second has a 0.2921 higher shannon
 # neither difference is significant
@@ -71,28 +71,28 @@ hist(resid(shannon_model))
 #ehhh it's not great but not horrific
 
 # Graph shannon diversity ------
-theme_set(theme_classic(base_size = 28)) # set default settings
+theme_set(theme_classic(base_size = 20)) # set default settings
 
 ggplot(data = site_richness, aes(forest, shannon)) + 
-  geom_boxplot(aes(fill = forest)) +
+  geom_boxplot(aes(fill = forest), alpha = 0.8, fatten = 3) +
   labs(y = "Shannon Diversity", x = "Forest") +
   theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c("Old Growth", "Second Growth", "Replanted")) +
   scale_fill_manual(values = wood)
 
 ggsave("../Figures/shannon_box.png", device = "png",
-       height = 9, width = 16, dpi = 400)
+       height = 6, width = 10, dpi = 400)
 
 # Size diversity -----
 diam_model <- lm(diam_m ~ forest + species, data = size_data)
 summary(diam_model)
 anova(diam_model)
-# so trees in replant and second are statistically smaller in diameter than old by -2.56293 and -1.16436 
-# and cedar (and nearly hemlock) are the only ones that differ from alders
-  #this isn't really that interesting
+# so trees in replant are larger than old by 0.58855 and second are  smaller in diameter than old by -0.85675 
+
 
 height_model <- lm(height_m ~ forest + species, data = size_data)
 summary(height_model)
-# replant are shorter than old by -15.6052 and second are taller than old by 12.0626
+anova(height_model)
+# second are taller than old by 12.0626 and replants are shorter by -15.6052 
 # no difference between the trees, hemlock is almost diff from alder but not quite
 
 # calculate total aboveground biomass????
@@ -131,19 +131,19 @@ ggsave("../Figures/height_box.png", device = "png",
        height = 6, width = 10, dpi = 400)
 
 # GETTING CREATIVE!!!!! ------
+tree_labs <- c("Cedar", "Hemlock", "Douglas Fir", "Alder", "Balsam Poplar", "unknown")
+
 set.seed(66666)
-ggplot(aes(x = forest, y = species, size = diam_m, colour = species), data = size_data) + geom_jitter() + 
+ggplot(aes(x = dummy, y = species, size = volume, colour = species), data = size_data) + geom_jitter() + 
   scale_colour_manual(values = wood, guide = "none") +
-  labs(x = "Forest Stand", y = " ", size = "Diameter (m)")
+  labs(x = "Forest Stand", y = " ", size = bquote('Size'~(m^3))) +
+  facet_wrap(~forest) +
+  scale_y_discrete(labels = tree_labs) +
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), 
+        panel.border = element_rect(colour = "black", fill = NA))
 
 ggsave("../Figures/forest_size_species.png", device = "png",
-       height = 6, width = 10, dpi = 400)
-
-
-set.seed(66666)
-ggplot(aes(x = forest, y = species, size = height_m, colour = species), data = size_data) + geom_jitter() + 
-  scale_colour_manual(values = wood, guide = "none") +
-  labs(x = "Forest Stand", y = " ", size = "Height (m)")
+       height = 5, width = 10, dpi = 400)
 
 
 # adonis ------
@@ -151,17 +151,3 @@ dissim_mat <- vegdist(species, method = "horn")
 adonis(dissim_mat ~ forest, data = site, permutations = 9999)
 # this looks at species distribution as function of environmental data
 # so yes, different species in different forest stands
-
-
-# Ordination: nMDS -----
-myNMDS <- metaMDS(species, k = 2)
-myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
-stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
-
-#ugly plot
-ordiplot(myNMDS, type = "n") 
-ordihull(myNMDS, groups = site$forest, draw = "polygon",col = "grey99",label = T)
-orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
-orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
-
-
