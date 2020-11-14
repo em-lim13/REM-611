@@ -3,14 +3,16 @@
 # Written by Em Lim
 
 # Load packages and data -----
+# If you haven't installed these packages, do that first
+# eg.  install.packages("ggplot2")
 
-library(ggplot2)
-library(tidyverse)
-library(vegan)
-library(googlesheets4)
-library(visreg)
-library(PNWColors)
-library(car)
+library(ggplot2) # graphing
+library(tidyverse) # data organization
+library(vegan) # biodiversity
+library(googlesheets4) # pull data from google drive
+library(visreg) # visualize your models
+library(PNWColors) # pretty colours for palettes
+library(car) # for some statistical analyses (for variance test)
 
 
 # Read sheets from google drive
@@ -42,7 +44,7 @@ site <- subset(site, select = -undergrowth_species )
 
 # make a palette
 wood <- pnw_palette(name = "Mushroom", n = 6, type="discrete")
-wood <- c("brown4", wood)
+wood2 <- c("brown4", wood)
 
 # Biodiversity metrics ------
 
@@ -134,9 +136,9 @@ ggsave("../Figures/height_box.png", device = "png",
 tree_labs <- c("Cedar", "Hemlock", "Douglas Fir", "Alder", "Balsam Poplar", "unknown")
 
 set.seed(66666)
-ggplot(aes(x = dummy, y = species, size = volume, colour = species), data = size_data) + geom_jitter() + 
-  scale_colour_manual(values = wood, guide = "none") +
-  labs(x = "Forest Stand", y = " ", size = bquote('Size'~(m^3))) +
+ggplot(aes(x = dummy, y = species, size = diam_m, colour = species), data = size_data) + geom_jitter() + 
+  scale_colour_manual(values = wood2, guide = "none") +
+  labs(x = "Forest Stand", y = " ", size = "Diameter (m)") +
   facet_wrap(~forest) +
   scale_y_discrete(labels = tree_labs) +
   theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), 
@@ -148,6 +150,6 @@ ggsave("../Figures/forest_size_species.png", device = "png",
 
 # adonis ------
 dissim_mat <- vegdist(species, method = "horn")
-adonis(dissim_mat ~ forest, data = site, permutations = 9999)
+adonis(dissim_mat ~ undergrowth_abundance + soil_moisture  + canopy_cover, data = site, permutations = 9999)
 # this looks at species distribution as function of environmental data
 # so yes, different species in different forest stands
