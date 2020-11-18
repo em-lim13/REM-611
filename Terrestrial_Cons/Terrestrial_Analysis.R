@@ -67,7 +67,7 @@ visreg(shannon_model)
 
 #check model assumptions
 par(mfrow = c(2,2))
-plot(shannon_model)
+plot(diam_model)
 par(mfrow = c(1,1))
 hist(resid(shannon_model))
 #ehhh it's not great but not horrific
