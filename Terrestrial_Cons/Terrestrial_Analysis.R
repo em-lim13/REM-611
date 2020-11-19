@@ -21,12 +21,12 @@ size_data <- googledrive::drive_get("2020_size_data") %>%
 size_data <- as.data.frame(size_data) %>% mutate(
   forest = factor(forest, levels = c("Old", "Second", "Replant")),
   species = factor(species, levels = c("Cedar", "Hemlock", "Douglas_Fir", "Alder", "Balsam_Poplar", "unknown")),
-  volume = 3.14*height_m*(diam_m/2)^2,
-  x_area = 3.1415*(diam_m/2)^2,
-  dummy = "a"
+  dummy = "a",
+  log_diam = log(diam_m),
+  log_height = log(height_m),
+  ratio = height_m/diam_m
 )
 str(size_data)
-
 
 
 # species is a dataframe where each row is a plot
@@ -84,22 +84,8 @@ ggplot(data = site_richness, aes(forest, shannon)) +
 ggsave("../Figures/shannon_box.png", device = "png",
        height = 6, width = 10, dpi = 400)
 
-# Size diversity -----
-diam_model <- lm(diam_m ~ forest + species, data = size_data)
-summary(diam_model)
-anova(diam_model)
-# so trees in replant are larger than old by 0.58855 and second are  smaller in diameter than old by -0.85675 
 
-
-height_model <- lm(height_m ~ forest + species, data = size_data)
-summary(height_model)
-anova(height_model)
-# second are taller than old by 12.0626 and replants are shorter by -15.6052 
-# no difference between the trees, hemlock is almost diff from alder but not quite
-
-# calculate total aboveground biomass????
-# from Canadian national biomass equations: new parameter estimates that include British Columbia data - Ung 2008
-# hard pass
+# Compare variance in diam and height between forests ----
 
 # variance
 leveneTest(diam_m ~ forest, data = size_data)
@@ -108,9 +94,38 @@ leveneTest(diam_m ~ forest, data = size_data)
 leveneTest(height_m ~ forest, data = size_data)
 # p > 0.05 means that the variance IS different! DOPE 
 
-# Graph size -----
 
-# DIAMETER
+# Diameter diversity -----
+diam_model <- lm(diam_m ~ forest + species, data = size_data)
+summary(diam_model)
+anova(diam_model)
+# so trees in replant are larger than old by 0.58855 and second are  smaller in diameter than old by -0.85675 
+
+# assumptions?
+par(mfrow = c(2,2))
+plot(diam_model)
+par(mfrow = c(1,1))
+hist(resid(diam_model))
+
+# yeah that looks prettyyyy gnarly...
+# let's look at a log model
+log_diam_model <- lm(log_diam ~ forest + species, data = size_data)
+summary(log_diam_model)
+anova(log_diam_model)
+# intercept is no longer signif
+# rest is pretty much the same
+
+# assumptions?
+par(mfrow = c(2,2))
+plot(log_diam_model)
+par(mfrow = c(1,1))
+hist(resid(log_diam_model))
+
+# Which does AIC like better
+AIC(diam_model, log_diam_model)
+# oh woah the untransformed model is much better
+
+# Graph DIAMETER -----
 ggplot(data = size_data, aes(forest, diam_m)) + 
   geom_point(aes(colour = forest)) + 
   geom_boxplot(aes(fill = forest), alpha = 0.8) +
@@ -121,7 +136,40 @@ ggplot(data = size_data, aes(forest, diam_m)) +
 ggsave("../Figures/diam_box.png", device = "png",
        height = 6, width = 10, dpi = 400)
 
-#HEIGHT
+
+# Height diversity ------
+height_model <- lm(height_m ~ forest + species, data = size_data)
+summary(height_model)
+anova(height_model)
+# second are taller than old by 12.0626 and replants are shorter by -15.6052 
+# no difference between the trees, hemlock is almost diff from alder but not quite
+
+# assumptions?
+par(mfrow = c(2,2))
+plot(height_model)
+par(mfrow = c(1,1))
+hist(resid(height_model))
+
+# yeah again not the best
+# let's try log
+log_height_model <- lm(log_height ~ forest + species, data = size_data)
+summary(log_height_model)
+anova(log_height_model)
+# eh pretty much the same
+
+# assumptions?
+par(mfrow = c(2,2))
+plot(log_height_model)
+par(mfrow = c(1,1))
+hist(resid(log_height_model))
+# yeah it's better looking
+
+# what does AIC prefer
+AIC(height_model, log_height_model)
+# log is way preferred
+
+
+# Graph HEIGHT -----
 ggplot(data = size_data, aes(forest, height_m)) + 
   geom_point(aes(colour = forest)) + 
   geom_boxplot(aes(fill = forest), alpha = 0.8) +
@@ -130,6 +178,22 @@ ggplot(data = size_data, aes(forest, height_m)) +
   scale_fill_manual(values = wood) + scale_colour_manual(values = wood)
 
 ggsave("../Figures/height_box.png", device = "png",
+       height = 6, width = 10, dpi = 400)
+
+
+# Height:diameter ratios -----
+ratio_model <- lm(ratio ~ forest + species, data = size_data)
+summary(ratio_model)
+anova(ratio_model)
+
+ggplot(data = size_data, aes(forest, ratio)) + 
+  geom_point(aes(colour = forest)) + 
+  geom_boxplot(aes(fill = forest), alpha = 0.8) +
+  labs(y = "Height:diamter ratio", x = "Forest") +
+  theme(legend.position = "none", axis.text = element_text(colour = "black")) + scale_x_discrete(labels = c('Old Growth', "Second Growth","Replanted")) +
+  scale_fill_manual(values = wood) + scale_colour_manual(values = wood)
+
+ggsave("../Figures/ratio_box.png", device = "png",
        height = 6, width = 10, dpi = 400)
 
 # GETTING CREATIVE!!!!! ------
