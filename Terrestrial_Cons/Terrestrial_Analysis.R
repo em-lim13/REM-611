@@ -13,6 +13,8 @@ library(googlesheets4) # pull data from google drive
 library(visreg) # visualize your models
 library(PNWColors) # pretty colours for palettes
 library(car) # for some statistical analyses (for variance test)
+install.packages("fmsb")
+library(fmsb)
 
 
 # Read sheets from google drive
@@ -42,9 +44,19 @@ site <- googledrive::drive_get("2020_site_data") %>%
 site <- as.data.frame(site)
 site <- subset(site, select = -undergrowth_species )
 
+# radar data is for making graphs
+# numbers calculated: max forest set to 5
+  # 5/the value for that forest's metric is the conversion factor
+  # other forests = conversion* their metric
+radar <- googledrive::drive_get("radar_data") %>% 
+  read_sheet()
+radar<- as.data.frame(radar)
+rownames(radar) <- c(1, 2, "old", "second", "replant")
+
 # make a palette
 wood <- pnw_palette(name = "Mushroom", n = 6, type="discrete")
 wood2 <- c("brown4", wood)
+wood3 <- alpha(wood,0.3)
 
 # Biodiversity metrics ------
 
@@ -53,6 +65,39 @@ site_richness <- site %>% mutate(
   shannon = (diversity(species, index = "shannon")),
   simpson = (diversity(species, index = "simpson"))
 )
+
+site_richness %>% 
+  group_by(forest) %>% 
+  summarise(average = mean(shannon))
+
+size_data %>% 
+  group_by(forest) %>% 
+  summarise(variance = var(height_m))
+
+size_data %>% 
+  group_by(forest) %>% 
+  summarise(height = mean(height_m))
+
+size_data %>% 
+  group_by(forest) %>% 
+  summarise(diam = var(diam_m))
+
+size_data %>% 
+  group_by(forest) %>% 
+  summarise(diam = mean(diam_m))
+
+size_data %>% 
+  group_by(forest) %>% 
+  summarise(ratio_avg = mean(ratio))
+
+# old = 0.24
+# second = 0.532
+# replant = 0.749
+
+# conversion = shannon * 6.675567
+# 5 = 0.749*x
+# x = 5/highest
+
 
 # look at the output
 shannon_model <- lm(shannon ~ forest, data = site_richness)
@@ -185,6 +230,7 @@ ggsave("../Figures/height_box.png", device = "png",
 ratio_model <- lm(ratio ~ forest + species, data = size_data)
 summary(ratio_model)
 anova(ratio_model)
+visreg(ratio_model)
 
 ggplot(data = size_data, aes(forest, ratio)) + 
   geom_point(aes(colour = forest)) + 
@@ -211,9 +257,31 @@ ggplot(aes(x = dummy, y = species, size = diam_m, colour = species), data = size
 ggsave("../Figures/forest_size_species.png", device = "png",
        height = 5, width = 10, dpi = 400)
 
+# Tree density stuff ------
+density <- species %>%mutate(density = rowSums(.[1:5]))
+site <- cbind(site, density$density)
+site <- site %>% mutate(
+  density = density$density
+)
+# ugh this is so ugly but whatever it works
 
-# adonis ------
-dissim_mat <- vegdist(species, method = "horn")
-adonis(dissim_mat ~ undergrowth_abundance + soil_moisture  + canopy_cover, data = site, permutations = 9999)
-# this looks at species distribution as function of environmental data
-# so yes, different species in different forest stands
+#make the model
+density_model <- lm(density ~ forest, data = site)
+summary(density_model)
+anova(density_model)
+
+# radar plot
+radarchart(radar)
+
+# Color vector
+
+radarchart( radar, axistype=1 , 
+            #custom polygon
+            pcol=wood , pfcol=wood3 , plwd=4 , plty=1,
+            #custom the grid
+            cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,5,1), cglwd=0.8,
+            #custom labels
+            vlcex=0.8 
+)
+
+legend(x=0.7, y=1, legend = rownames(radar[-c(1,2),]), bty = "n", pch=20 , col=wood , text.col = "grey", cex=1.2, pt.cex=3)
