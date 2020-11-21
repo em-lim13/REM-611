@@ -66,6 +66,7 @@ site_richness <- site %>% mutate(
   simpson = (diversity(species, index = "simpson"))
 )
 
+# summarize metrics for radar
 site_richness %>% 
   group_by(forest) %>% 
   summarise(average = mean(shannon))
@@ -89,6 +90,9 @@ size_data %>%
 size_data %>% 
   group_by(forest) %>% 
   summarise(ratio_avg = mean(ratio))
+# ratio is height/diam, so bigger is worse
+# so I flipped it to be diam/height, so larger is better
+# then converted to 0-5 scale like the others
 
 # old = 0.24
 # second = 0.532
@@ -270,10 +274,12 @@ density_model <- lm(density ~ forest, data = site)
 summary(density_model)
 anova(density_model)
 
-# radar plot
+# radar plot ------
+# https://www.r-graph-gallery.com/143-spider-chart-with-saveral-individuals.html
+
 radarchart(radar)
 
-# Color vector
+
 
 radarchart( radar, axistype=1 , 
             #custom polygon
@@ -284,4 +290,4 @@ radarchart( radar, axistype=1 ,
             vlcex=0.8 
 )
 
-legend(x=0.7, y=1, legend = rownames(radar[-c(1,2),]), bty = "n", pch=20 , col=wood , text.col = "grey", cex=1.2, pt.cex=3)
+legend(x=0.7, y=1.3, legend = rownames(radar[-c(1,2),]), bty = "n", pch=20 , col=wood , text.col = "grey", cex=1.2, pt.cex=3)
