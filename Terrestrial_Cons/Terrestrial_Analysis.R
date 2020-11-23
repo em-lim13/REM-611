@@ -66,10 +66,21 @@ site_richness <- site %>% mutate(
   simpson = (diversity(species, index = "simpson"))
 )
 
+site_richness <- site_richness %>% mutate(
+  richness = apply(species>0,1,sum)
+)
+
+
+
 # summarize metrics for radar
 site_richness %>% 
   group_by(forest) %>% 
   summarise(average = mean(shannon))
+
+site_richness %>% 
+  group_by(forest) %>% 
+  summarise(SE = sd(shannon)/sqrt(length(shannon)) )
+
 
 size_data %>% 
   group_by(forest) %>% 
@@ -109,10 +120,11 @@ anova(shannon_model) # so old growth is the "control" here
 # replant has a 0.5095 higher shannon
 # second has a 0.2921 higher shannon
 # neither difference is significant
-
+rich_model <- lm(richness ~ forest, data = site_richness)
+summary(rich_model) # richness isn't signif either
 
 # Let's visualize this
-visreg(shannon_model)
+visreg(rich_model)
 
 #check model assumptions
 par(mfrow = c(2,2))
@@ -285,9 +297,9 @@ radarchart( radar, axistype=1 ,
             #custom polygon
             pcol=wood , pfcol=wood3 , plwd=4 , plty=1,
             #custom the grid
-            cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,5,1), cglwd=0.8,
+            cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(1,5,1), cglwd=0.8,
             #custom labels
             vlcex=0.8 
 )
 
-legend(x=0.7, y=1.3, legend = rownames(radar[-c(1,2),]), bty = "n", pch=20 , col=wood , text.col = "grey", cex=1.2, pt.cex=3)
+legend(x=0.5, y=1.3, legend = c("Old Growth", "Second Growth", "Replanted"), bty = "n", pch=20 , col=wood , text.col = "black", cex=1.2, pt.cex=3)
