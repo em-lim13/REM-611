@@ -1,0 +1,16 @@
+plot,forest,soil_moisture,undergrowth_abundance,small_mammals,birds,canopy_cover,human_impact,CMT,deadfall,stumps,undergrowth_species,notes
+S1,Second,medium,low,none,medium,65,high,none,yes,yes,"minimal, hucklebery, sword fern, some cedar & hemlock recruits ",
+S2,Second,very_high,low,none,low,65,none,none,yes,yes,"tall salmonberry, skunk cabbage, huckleberry, hemlock recruits",
+S3,Second,medium,none,none,low,35,high,none,no,none,none,
+S4,Second,medium,low,none,none,65,medium,none,yes,none,"sword ferns, huckleberry, salal",
+S5,Second,medium,low,none,none,65,low,none,yes,no,"huckleberry, sword fern, salal, mossy site",
+R1,Replant,low,medium,none,none,0,none,none,yes,yes,"salal, wild blackberries, huckleberry bushes, blueberry bushes",
+R2,Replant,low,medium,none,none,0,none,none,yes,yes,"salal, wild blackberries, huckleberry bushes, blueberry bushes",
+R3,Replant,low,medium,none,none,0,none,none,yes,yes,"salal, wild blackberries, huckleberry bushes, blueberry bushes",
+R4,Replant,low,medium,none,none,0,none,none,yes,yes,"salal, wild blackberries, huckleberry bushes, blueberry bushes",
+R5,Replant,low,medium,none,none,0,none,none,yes,yes,"salal, wild blackberries, huckleberry bushes, blueberry bushes",
+O1,Old,very_high,high,low,low,50,none,none,yes,yes,"salal, deerfern, huckleberry, moss, lichens",
+O2,Old,very_high,high,none,low,50,none,none,yes,yes,"salal, deerfern, huckleberry, moss, lichens",
+O3,Old,very_high,high,low,low,50,none,yes,yes,yes,"salal, deerfern, huckleberry, moss, lichens",lightning tree
+O4,Old,very_high,high,none,high,50,none,none,yes,no,"salal, deerfern, huckleberry, moss, lichens",
+O5,Old,very_high,high,none,high,50,none,yes,yes,no,"salal, deerfern, huckleberry, moss, lichens",
