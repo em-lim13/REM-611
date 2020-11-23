@@ -2,31 +2,43 @@
 # Code to analyze the Aquatic Conservation Group Project
 # Written by Em Lim
 
-# Load packages and data -----
+# I have "soft wrap" turned on, so R automatically starts a new line when my code hits the edge of my page
+# If you don't have this on, you'll get some super long lines (sorry)
+# To turn it on, go Tools > Global Options > Code > check "soft wrap R source files" > Apply !
 
-library(ggplot2)
-library(tidyverse)
-library(vegan)
-library(lme4)
-library(lmerTest)
-library(googlesheets4)
-library(ggfortify)
-library(ggimage)
-library(ggrepel)
-library(rsvg)
 
+# Load packages -----
+# If you haven't installed these packages, do that first
+# eg.  install.packages("ggplot2")
+
+library(ggplot2) # graphing
+library(tidyverse) # data organization
+library(vegan) # biodiversity calculations
+library(googlesheets4) # pull data from google drive
+library(lme4) # linear model tests
+library(lmerTest) # linear model tests
+library(ggfortify) # for pca plots
+library(ggimage) # for adding pictures to ggplots 
+library(ggrepel) # for adding pictures to ggplots 
+library(rsvg) # for adding pictures to ggplots 
+
+# Load data ------
+# Originally while working on this project I was pulling the data straight from our group's google drive, but now that the project is finished I just downloaded the sheets into the "Data" folder as csv's
+# I'm going to hash out the code to retrieve sheets from google docs but keep it for prosterity
 
 # Read sheets from google drive
-site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
-  read_sheet()
-site_data <- as.data.frame(site)
+#site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
+#  read_sheet()
+#site_data <- as.data.frame(site)
+site_data <- read_csv("2020_Sept_site_x_environment.csv")
 
-species <- googledrive::drive_get("2020_Sept_species_x_site") %>%
-  read_sheet()
-species1 <- as.data.frame(species)
+#species <- googledrive::drive_get("2020_Sept_species_x_site") %>%
+#  read_sheet()
+#species1 <- as.data.frame(species)
+species_data <- read_csv("2020_Sept_species_x_site.csv")
 
 # cut the quadrant ID from species data for analysis
-species_data <- subset(species1, select = -quadrat )
+species_data <- subset(species_data, select = -quadrat )
 
 # Species Richness -----
 # make a new data frame for richness metrics 
@@ -35,13 +47,11 @@ site_richness <- site_data %>% mutate(
   simpson = (diversity(species_data, index = "simpson"))
 )
 
-anova_model <- aov(shannon ~ management + beach, data = site_richness)
+anova_model <- lm(shannon ~ management + beach, data = site_richness) #make model
 summary(anova_model)
-hist(resid(anova_model))
-
-# Post hoc testing
-TukeyHSD(anova_model, "beach")
-TukeyHSD(anova_model, "management")
+# So management and beach are signif, indigenous is highest, then none, then MPA
+anova(anova_model) # both are signif
+hist(resid(anova_model)) # check normality
 
 
 # Graph Shannon diversity -----
@@ -54,7 +64,7 @@ ggplot(data = site_richness, aes(beach, shannon)) +
   scale_x_discrete(labels = c('Bluestone Beach','Collishaw Point','Dunbar Beach', 'Whytecliff Park'))
 
 ggsave("../Figures/shannon.png", device = "png",
-      height = 9, width = 16, dpi = 400)
+      height = 9, width = 16, dpi = 400) # use ggsave to save this plot to my Figures folder
 
 # PERMANOVA -----
 
@@ -67,11 +77,12 @@ adonis(dissim_mat ~ management + beach, data = site_data, permutations = 9999)
 # Ordination: nMDS -----
 myNMDS <- metaMDS(species_data, k = 2)
 myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
-stressplot(new_NMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
+stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
 
 #ugly plot
 ordiplot(myNMDS, type = "n") 
 ordihull(myNMDS, groups = site_data$beach,draw = "polygon",col = "grey99",label = T)
+  # polygons are drawn between sites
 orditorp(myNMDS, display = "species", col = "purple4",air = 0.01, cex = 0.9)
 orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 
@@ -81,7 +92,7 @@ orditorp(myNMDS, display = "sites", cex = 0.75, air = 0.01)
 # https://rpubs.com/CPEL/NMDS
 # https://www.rpubs.com/RGrieger/545184
 
-set.seed(604671825)
+set.seed(604671825) # set seed so randomization aspects of graph look the same each time
 myNMDS <- metaMDS(species_data, k = 2)
 my_envfit <- envfit(myNMDS, site_data, permutations = 999)
 spp_fit <- envfit(myNMDS, species_data, permutations = 999)
@@ -173,30 +184,8 @@ ggsave("../Figures/all_ordination.png", device = "png",
        height = 9, width = 16, dpi = 400)
 
 
-# make a plot just for the significant species
-#use file sig_spp_scrs
-
-# add a new column for the file names
-sig_images <- c("ian-symbol-littoraria-spp.png", "ian-symbol-urosalpinx-cinerea.png", "limpet-shell-illustration-vector-134049223.png", "ian-symbol-pachygraspus-marmoratus.png","ian-symbol-sea-anemone-2.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-sponge-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png",  "ian-symbol-amphipod.png", "ian-symbol-amphipod.png")
-
-
-#add image names to dataframe
-sig_spp_scrs_images <- cbind(sig_spp_scrs, sig_images)
-
-# add species images
-sig_nmds_plot <- nmds_plot1 + geom_image(data = sig_spp_scrs, by = "height", aes(x = NMDS1, y = NMDS2, image = sig_images), size = 0.08)
-
-print(sig_nmds_plot)
-# looks better with all the species!
-
-
-
-
-
-# EXTRA -------
-
-
-# PCA -----
+# EXTRA PCA stuff -----
+# (not in final project)
 
 # this creates the PCA values
 pca_values <- 
