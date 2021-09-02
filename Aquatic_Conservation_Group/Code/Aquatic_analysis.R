@@ -30,12 +30,12 @@ library(rsvg) # for adding pictures to ggplots
 #site <- googledrive::drive_get("2020_Sept_site_x_environment") %>% 
 #  read_sheet()
 #site_data <- as.data.frame(site)
-site_data <- read_csv("2020_Sept_site_x_environment.csv")
+site_data <- read_csv("Aquatic_Conservation_Group/Data/2020_Sept_site_x_environment.csv")
 
 #species <- googledrive::drive_get("2020_Sept_species_x_site") %>%
 #  read_sheet()
 #species1 <- as.data.frame(species)
-species_data <- read_csv("2020_Sept_species_x_site.csv")
+species_data <- read_csv("Aquatic_Conservation_Group/Data/2020_Sept_species_x_site.csv")
 
 # cut the quadrant ID from species data for analysis
 species_data <- subset(species_data, select = -quadrat )
