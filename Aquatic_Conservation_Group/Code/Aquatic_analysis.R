@@ -76,7 +76,7 @@ adonis(dissim_mat ~ management + beach, data = site_data, permutations = 9999)
 
 # Ordination: nMDS -----
 myNMDS <- metaMDS(species_data, k = 2)
-myNMDS #most important: is the stress low? Here it is >0.2 whihc is a bit on the high side
+myNMDS #most important: is the stress low? Here it is >0.1 which is a bit on the high side
 stressplot(myNMDS) #low stress means that the observed dissimilarity between site pairs matches that on the 2-D plot fairly well (points hug the line)
 
 #ugly plot
@@ -139,7 +139,7 @@ signif_spp_scrs_cut <- signif_spp_scrs1[-c(20:23), ]
 
 
 # add a new column for the file names
-images <- c("ian-symbol-sponge-1.png", "ian-symbol-amphipod.png","ian-symbol-pachygraspus-marmoratus.png", "ian-symbol-sea-anemone-2.png", "ian-symbol-amphipod.png", "ian-symbol-urosalpinx-cinerea.png", "ian-symbol_cellana_exarata.png", "ian-symbol-littoraria-spp.png",  "ian-symbol-sea-anemone-1.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-bryozoan-colony.png", "ian-symbol-oyster.png",  "ian-symbol-hermit-crab.png", "ian-symbol-seastar-3.png", "ian-symbol-palolo-viridis.png", "ian-symbol-barnacle-open.png", "ian-symbol-palolo-viridis.png", "ian-symbol-sea-anemone-1.png", "ian-symbol-mussels-2.png")
+images <- c("ian-symbol-sponge-1.svg", "ian-symbol-amphipod.svg","ian-symbol-pachygraspus-marmoratus.svg", "ian-symbol-sea-anemone-2.svg", "ian-symbol-amphipod.svg", "ian-symbol-urosalpinx-cinerea.svg", "ian-symbol_cellana_exarata.svg", "ian-symbol-littoraria-spp.svg",  "ian-symbol-sea-anemone-1.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-bryozoan-colony.svg", "ian-symbol-oyster.svg",  "ian-symbol-hermit-crab.svg", "ian-symbol-seastar-3.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-barnacle-open.svg", "ian-symbol-palolo-viridis.svg", "ian-symbol-sea-anemone-1.svg", "ian-symbol-mussels-2.svg")
 
 
 #add image names to dataframe
